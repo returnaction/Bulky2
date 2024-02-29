@@ -3,12 +3,47 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Category Index</h1>
+<partial name="_Notification" />
 
-<ul>
-    @foreach(var category in Model)
-    {
-        <li>@category.Name  @category.DisplayOrder</li>
-    }
-</ul>
+<div class="container">
+
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Category List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Category" asp-action="Create" class="btn btn-primary">Create New Category</a>
+        </div>
+    </div>
+
+<table class="table table-bordered table-striped">
+
+    <thead>
+        <tr>
+            <th>Category Name</th>
+            <th>Display Order</th>
+            <td></td>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (Category category in Model.OrderBy(category => category.DisplayOrder))
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>@category.DisplayOrder</td>
+                <td>
+                    <a asp-controller="Category" asp-action="Delete" asp-route-Id="@category.Id"  class="btn btn-danger">Delete</a>
+                    <a asp-controller="Category" asp-action="Edit" asp-route-Id="@category.Id"  class="btn btn-info">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+</div>
+
+
+
 

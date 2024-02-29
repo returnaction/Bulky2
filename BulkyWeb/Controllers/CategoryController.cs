@@ -1,5 +1,6 @@
 ﻿using BulkyWeb.Data;
 using BulkyWeb.Models;
+using BulkyWeb.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,16 +8,16 @@ namespace BulkyWeb.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ICategoryRepository _categoryRepo;
 
-        public CategoryController(ApplicationDbContext context)
+        public CategoryController(ICategoryRepository categoryRepo)
         {
-            _context = context;
+            _categoryRepo = categoryRepo;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            List<Category>? categories = await _context.Categories.ToListAsync();
+            IEnumerable<Category>? categories = _categoryRepo.GetAll();
             return View(categories);
         }
 
@@ -32,8 +33,8 @@ namespace BulkyWeb.Controllers
             {
                 return View();
             }
-            _context.Categories.Add(category);
-            _context.SaveChanges();
+            _categoryRepo.Add(category);
+            _categoryRepo.Save();
 
             TempData["success"] = "Category created successfuly";
 
@@ -42,7 +43,8 @@ namespace BulkyWeb.Controllers
 
         public IActionResult Delete(int id)
         {
-            Category? category = _context.Categories.FirstOrDefault(c => c.Id == id);
+            Category? category = _categoryRepo.Get(c => c.Id == id);
+
 
             if (category is null)
                 return NotFound();
@@ -54,10 +56,10 @@ namespace BulkyWeb.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteAction(int id)
         {
-            Category? category = _context.Categories.FirstOrDefault(c => c.Id == id);
+            Category? category = _categoryRepo.Get(c => c.Id == id);
 
-            _context.Categories.Remove(category!);
-            _context.SaveChanges();
+            _categoryRepo.Remove(category);
+            _categoryRepo.Save();
 
             TempData["success"] = "Category was deleted successfully";
 
@@ -67,7 +69,7 @@ namespace BulkyWeb.Controllers
 
         public IActionResult Edit(int id)
         {
-            Category? category = _context.Categories.FirstOrDefault(c => c.Id == id);
+            Category? category = _categoryRepo.Get(c => c.Id == id);
 
             if (category is null)
                 return NotFound();
@@ -82,8 +84,8 @@ namespace BulkyWeb.Controllers
             {
                 return View(category);
             }
-            _context.Categories.Update(category);
-            _context.SaveChanges();
+            _categoryRepo.Update(category);
+            _categoryRepo.Save();
 
             TempData["success"] = "Category was updated succussfully";
 

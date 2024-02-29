@@ -1,0 +1,14 @@
+﻿@model List<Category>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Category Index</h1>
+
+<ul>
+    @foreach(var category in Model)
+    {
+        <li>@category.Name  @category.DisplayOrder</li>
+    }
+</ul>
+

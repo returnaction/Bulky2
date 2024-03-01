@@ -1,6 +1,8 @@
 ﻿using BulkyWeb.Models;
+using BulkyWeb.Models.ViewModels;
 using BulkyWeb.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
 namespace BulkyWeb.Areas.Admin.Controllers
@@ -17,24 +19,42 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Product> products = _unitOfWork.Product.GetAll();
+            List<Product> products = _unitOfWork.Product.GetAll().ToList();
+
             return View(products);
         }
 
         public IActionResult Create()
         {
-            return View();
+            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = c.Id.ToString()
+            });
+
+            ProductVM productVM = new()
+            {
+                Product = new Product(),
+                CategoryList = CategoryList
+            };
+
+            return View(productVM);
         }
 
         [HttpPost]
-        public IActionResult Create(Product product)
+        public IActionResult Create(ProductVM productVM)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                productVM.CategoryList = _unitOfWork.Category.GetAll().Select(c => new SelectListItem
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString()
+                });
+                return View(productVM);
             }
 
-            _unitOfWork.Product.Add(product);
+            _unitOfWork.Product.Add(productVM.Product);
             _unitOfWork.Save();
 
             TempData["success"] = "Product successfuly created";

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BulkyWeb.Models
 {
@@ -24,6 +25,12 @@ namespace BulkyWeb.Models
         public double Price50 { get; set; }
         [Required]
         public double Price100 { get; set; }
+
+        [ForeignKey("CategoryId")]
+        public Category Category { get; set; }
+        public int CategoryId { get; set; }
+
+        
 
     }
 }

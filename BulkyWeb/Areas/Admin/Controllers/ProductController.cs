@@ -3,9 +3,9 @@ using BulkyWeb.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
-namespace BulkyWeb.Areas.Customer.Controllers
+namespace BulkyWeb.Areas.Admin.Controllers
 {
-    [Area("Customer")]
+    [Area("Admin")]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

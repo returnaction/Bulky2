@@ -16,31 +16,31 @@
         </div>
     </div>
 
-<table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped">
 
-    <thead>
-        <tr>
-            <th>Category Name</th>
-            <th>Display Order</th>
-            <td></td>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (Category category in Model.OrderBy(category => category.DisplayOrder))
-        {
+        <thead>
             <tr>
-                <td>@category.Name</td>
-                <td>@category.DisplayOrder</td>
-                <td>
-                    <a asp-controller="Category" asp-action="Delete" asp-route-Id="@category.Id"  class="btn btn-danger">Delete</a>
-                    <a asp-controller="Category" asp-action="Edit" asp-route-Id="@category.Id"  class="btn btn-info">Edit</a>
-                </td>
+                <th>Category Name</th>
+                <th>Display Order</th>
+                <td></td>
             </tr>
-        }
-    </tbody>
+        </thead>
 
-</table>
+        <tbody>
+            @foreach (Category category in Model.OrderBy(category => category.DisplayOrder))
+            {
+                <tr>
+                    <td>@category.Name</td>
+                    <td>@category.DisplayOrder</td>
+                    <td>
+                        <a asp-controller="Category" asp-action="Delete" asp-route-Id="@category.Id" class="btn btn-danger">Delete</a>
+                        <a asp-controller="Category" asp-action="Edit" asp-route-Id="@category.Id" class="btn btn-info">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
 
 </div>
 

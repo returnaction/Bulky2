@@ -14,7 +14,7 @@
             <h2 class="text-primary">Product List</h2>
         </div>
         <div class="col-6 text-end">
-            <a asp-controller="Product" asp-action="Create" class="btn btn-primary">Create New Product</a>
+            <a asp-controller="Product" asp-action="Upsert" class="btn btn-primary">Create New Product</a>
         </div>
     </div>
 
@@ -40,7 +40,7 @@
                     <td>@product.ListPrice</td>
                     <td>
                         <a asp-controller="Product" asp-action="Delete" asp-route-Id="@product.Id" class="btn btn-danger">Delete</a>
-                        <a asp-controller="Product" asp-action="Edit" asp-route-Id="@product.Id" class="btn btn-info">Edit</a>
+                        <a asp-controller="Product" asp-action="Upsert" asp-route-Id="@product.Id" class="btn btn-info">Edit</a>
                     </td>
                 </tr>
             }

@@ -22,13 +22,13 @@ namespace BulkyWeb.Areas.Admin.Controllers
             return View(categories);
         }
 
-        public IActionResult Create()
+        public IActionResult Upsert()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(Category category)
+        public IActionResult Upsert(Category category)
         {
             if (!ModelState.IsValid)
             {
@@ -38,6 +38,31 @@ namespace BulkyWeb.Areas.Admin.Controllers
             _unitOfWork.Save();
 
             TempData["success"] = "Category created successfuly";
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Edit(int id)
+        {
+            Category? category = _unitOfWork.Category.Get(c => c.Id == id);
+
+            if (category is null)
+                return NotFound();
+
+            return View(category);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Category category)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(category);
+            }
+            _unitOfWork.Category.Update(category);
+            _unitOfWork.Save();
+
+            TempData["success"] = "Category was updated succussfully";
 
             return RedirectToAction(nameof(Index));
         }
@@ -68,29 +93,6 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
         }
 
-        public IActionResult Edit(int id)
-        {
-            Category? category = _unitOfWork.Category.Get(c => c.Id == id);
-
-            if (category is null)
-                return NotFound();
-
-            return View(category);
-        }
-
-        [HttpPost]
-        public IActionResult Edit(Category category)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(category);
-            }
-            _unitOfWork.Category.Update(category);
-            _unitOfWork.Save();
-
-            TempData["success"] = "Category was updated succussfully";
-
-            return RedirectToAction(nameof(Index));
-        }
+        
     }
 }

@@ -12,8 +12,8 @@
     <div class="row">
         <div class="">
             <form asp-action="Upsert" enctype="multipart/form-data" method="post">
-                <input asp-for="Product.Id" hidden />
-                <input asp-for="Product.ImageUrl" hidden />
+                <input asp-for="@Model.Product.Id" hidden />
+                <input asp-for="@Model.Product.ImageUrl" hidden />
                 <div class="row">
                     <div class="col-10">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -73,7 +73,7 @@
                     </div>
 
                     <div class="col-2">
-                        <img src="@Model.Product.ImageUrl" width="200px" style="border-radius:5px; border:1px solid #bbb9b9" />
+                        <img src="@Model.Product.ImageUrl" width="200" style="border-radius:5px; border:1px solid #bbb9b9" />
                     </div>
                 </div>
 

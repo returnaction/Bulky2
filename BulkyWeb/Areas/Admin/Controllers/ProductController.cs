@@ -109,6 +109,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        
         public IActionResult Delete(int id)
         {
             Product? product = _unitOfWork.Product.Get(p => p.Id == id);
@@ -130,6 +131,6 @@ namespace BulkyWeb.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        
+
     }
 }

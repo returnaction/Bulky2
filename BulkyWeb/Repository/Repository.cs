@@ -21,17 +21,33 @@ namespace BulkyWeb.Repository
             dbset.Add(entity);
         }
 
-        public T Get(Expression<Func<T, bool>> filter)
+        public T Get(Expression<Func<T, bool>> filter, string? includeProoperties = null)
         {
             IQueryable<T> query = dbset;
             query = query.Where(filter);
 
+            if (!string.IsNullOrEmpty(includeProoperties))
+            {
+                foreach(var includeProp in includeProoperties.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
+
             return query.FirstOrDefault();
         }
 
-        public IEnumerable<T> GetAll()
+        //Category, CoverType
+        public IEnumerable<T> GetAll(string? includeProoperties = null)
         {
             IQueryable<T> query = dbset;
+            if(!string.IsNullOrEmpty(includeProoperties))
+            {
+                foreach(var includeProp in includeProoperties.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
             return query.ToList();
         }
 
